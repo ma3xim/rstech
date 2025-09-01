@@ -37,7 +37,7 @@
 - Просмотр списка категорий
 - Редактировать
 
-### Авторизация
+### Авторизация (в разработке)
 - Bearer Token (JWT)
 - Роли:
   - `USER` — доступ к просмотру категорий и поиску по продуктам
@@ -66,7 +66,7 @@
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - Мини-фронт:
-  - http://localhost:8080/login
+  - http://localhost:8080/login (в разработке)
   - http://localhost:8080/products
   - http://localhost:8080/categories
 - Тестовые пользователи: admin/admin , user/user
