@@ -1,9 +1,20 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/rstech?useUnicode=true&characterEncoding=UTF-8
+#    local DB
+#    url: jdbc:postgresql://localhost:5432/rstech?useUnicode=true&characterEncoding=UTF-8
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+
+#   cloud DB
+    url: jdbc:postgresql://mainline.proxy.rlwy.net:22204/railway?useUnicode=true&characterEncoding=UTF-8
     username: postgres
-    password: postgres
+    password: HozaHTumqAhuHrLkJuUqiyPJaMFWYiAj
     driver-class-name: org.postgresql.Driver
+#    must be hidden like:
+#    url: ${SPRING_DATASOURCE_URL}
+#    username: ${SPRING_DATASOURCE_USERNAME}
+#    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
@@ -26,19 +37,3 @@ spring:
 
 server:
   port: 8080
-
----
-## cloud Postgres
-#spring:
-#  config:
-#    activate:
-#      on-profile: cloud
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: ${SPRING_DATASOURCE_URL}
-#    username: ${SPRING_DATASOURCE_USERNAME}
-#    password: ${SPRING_DATASOURCE_PASSWORD}
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
