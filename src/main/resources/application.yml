@@ -1,0 +1,39 @@
+spring:
+  datasource:
+#    local DB
+#    url: jdbc:postgresql://localhost:5432/rstech?useUnicode=true&characterEncoding=UTF-8
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+
+#   cloud DB
+    url: jdbc:postgresql://mainline.proxy.rlwy.net:22204/railway?useUnicode=true&characterEncoding=UTF-8
+    username: postgres
+    password: HozaHTumqAhuHrLkJuUqiyPJaMFWYiAj
+    driver-class-name: org.postgresql.Driver
+#    must be hidden like:
+#    url: ${SPRING_DATASOURCE_URL}
+#    username: ${SPRING_DATASOURCE_USERNAME}
+#    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
+  jackson:
+    serialization:
+      indent-output: true
+
+server:
+  port: 8080

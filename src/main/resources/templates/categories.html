@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+    <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+<header>
+    <a href="/products">Продукты</a>
+    <button onclick="logout()">Выйти</button>
+</header>
+<section class="card">
+    <h3>Категории</h3>
+    <ul id="list"></ul>
+    <h4>Добавить</h4>
+    <input id="cName" placeholder="Название"/>
+    <input id="cDesc" placeholder="Описание"/>
+    <button onclick="addCat()">Создать</button>
+</section>
+<script>
+    const token = () => localStorage.getItem('token');
+
+    function logout() {
+        localStorage.removeItem('token');
+        location.href = '/login';
+    }
+
+    async function load() {
+        const res = await fetch('/api/categories', {
+            headers: {
+                'Authorization': 'Bearer ' + token()
+            }
+        });
+        if (!res.ok) {
+            if (res.status === 401) return location.href = '/login';
+            alert('Ошибка');
+            return;
+        }
+        const data = await res.json();
+        list.innerHTML = '';
+        data.forEach(c => {
+            const li = document.createElement('li');
+            li.innerHTML = `${c.name} — ${c.description || ''} <button onclick="del(${c.id})">Удалить</button>`;
+            list.appendChild(li);
+        });
+    }
+
+    async function addCat() {
+        const res = await fetch('/api/categories', {
+            method: 'POST', headers:
+                {'Content-Type': 'application/json', 'Authorization': 'Bearer' + token()}, body: JSON.stringify({
+                name: cName.value,
+                description: cDesc.value
+            })
+        });
+        if (res.ok) {
+            cName.value = '';
+            cDesc.value = '';
+            load();
+        } else alert('Не удалось создать');
+    }
+
+    async function del(id) {
+        if (!confirm('Удалить категорию и сделать продукты неактивными?'))
+            return;
+        const res = await fetch('/api/categories/' + id, {
+            method: 'DELETE', headers:
+                {'Authorization': 'Bearer ' + token()}
+        });
+        if (res.status === 204) load(); else alert('Не удалось удалить');
+    }
+
+    load();
+</script>
+
+</body>
+</html>

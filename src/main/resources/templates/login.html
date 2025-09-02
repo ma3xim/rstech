@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h2>Login</h2>
+<form id="loginForm">
+    <label>Username:</label>
+    <input type="text" id="username" required /><br/>
+    <label>Password:</label>
+    <input type="password" id="password" required /><br/>
+    <button type="submit">Login</button>
+</form>
+<p id="error" style="color:red;"></p>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const response = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username, password})
+            });
+
+            if (!response.ok) throw new Error("Invalid credentials");
+
+            const data = await response.json();
+            localStorage.setItem("jwtToken", data.token);
+
+            const payload = JSON.parse(atob(data.token.split(".")[1]));
+            if (payload.roles.includes("ADMIN")) {
+                window.location.href = "/dashboard";
+            } else {
+                alert("Logged in as USER, dashboard restricted");
+            }
+
+        } catch (err) {
+            document.getElementById("error").innerText = err.message;
+        }
+    });
+</script>
+<h3>Авторизация находятся в разработке. Пожалуйста перейдите на http://localhost:8080/categories</h3>
+</body>
+</html>
