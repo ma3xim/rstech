@@ -42,5 +42,5 @@ CREATE TABLE product (
                          CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL
 );
 
-ALTER SEQUENCE category_id_seq RESTART WITH 4;
-ALTER SEQUENCE product_id_seq RESTART WITH 6;
+ALTER SEQUENCE category_id_seq RESTART WITH 6;
+ALTER SEQUENCE product_id_seq RESTART WITH 18;
